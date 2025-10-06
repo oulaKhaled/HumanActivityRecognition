@@ -1,5 +1,5 @@
 import keras
-from kerastuner import RandomSearch
+from keras_tuner import RandomSearch
 
 
 def build_model(hp):
@@ -7,19 +7,18 @@ def build_model(hp):
     model.add(keras.Input(shape=(128, 9)))
     model.add(
         keras.layers.LSTM(
-            hp.Int(f"units", min_value=32, max_value=128, step=32),
+            hp.Int(f"units", min_value=64, max_value=320, step=64),
             return_sequences=True,
         )
     )
     if hp.Boolean("batch_norm"):
         model.add(keras.layers.BatchNormalization())
     if hp.Boolean("dropout"):
-        rate = hp.Float("dropout_rate", min_value=0.1, max_value=0.5, step=0.1)
+        rate = hp.Float("dropout_rate", min_value=0.2, max_value=0.5, step=0.1)
         model.add(keras.layers.Dropout(rate))
-    ## add a second layer of LSTM
     model.add(
         keras.layers.LSTM(
-            hp.Int("units", min_value=32, max_value=128, step=32),
+            hp.Int(f"units", min_value=32, max_value=320, step=32),
             return_sequences=False,
         )
     )
@@ -34,17 +33,23 @@ def build_model(hp):
     return model
 
 
-def random_search(
-    fn_model, _train_data, _train_labels, validation_split, trails, objective
+def tuner_random_search(
+    fn_model,
+    _train_data,
+    _train_labels,
+    validation_split,
+    trails_count,
+    objective,
+    epochs,
 ):
     tuner = RandomSearch(
         fn_model,
-        max_trials=trails,
+        max_trials=trails_count,
         objective=objective,
     )
 
     tuner.search(
-        _train_data, _train_labels, epochs=30, validation_split=validation_split
+        _train_data, _train_labels, epochs=epochs, validation_split=validation_split
     )
     best_hp = tuner.get_best_hyperparmeters(num_trails=1)[0]
     return best_hp, tuner

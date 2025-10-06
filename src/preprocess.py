@@ -6,14 +6,6 @@ import os
 import re
 
 
-MAIN_PATH = os.getenv("MAIN_PATH")
-DATA_FOLDER_PATH = f"{MAIN_PATH}/UCI HAR Dataset/UCI HAR Dataset"
-os.listdir(DATA_FOLDER_PATH)
-TRAIN_FOLDER_PATH = f"{DATA_FOLDER_PATH}/train"
-TEST_FOLDER_PATH = f"{DATA_FOLDER_PATH}/test"
-os.listdir(TRAIN_FOLDER_PATH)
-
-
 def read_file(file_path):
     with open(file_path, "r") as f:
         new_var = f.read().strip().split("\n")
@@ -35,19 +27,6 @@ def data_info(data_folder_path):
         activity_labels,
         activity_labels2,
     )
-
-
-SIGNALS = [
-    "body_acc_x",
-    "body_acc_y",
-    "body_acc_z",
-    "body_gyro_x",
-    "body_gyro_y",
-    "body_gyro_z",
-    "total_acc_x",
-    "total_acc_y",
-    "total_acc_z",
-]
 
 
 def prepare_signal_data(signals, FOLDER_NAME, subset):
