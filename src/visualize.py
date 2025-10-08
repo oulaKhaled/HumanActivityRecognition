@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+import pandas as pd
 
 
 def plot_single_data_point_info(_train_data, sample_index, signals):
@@ -30,3 +31,43 @@ def plot_model_results(history):
     plt.tight_layout()
     plt.legend()
     plt.show()
+
+
+def get_sample(sample_from_each_group, activity_index, sensor_index, x_train):
+    """
+    pick a channel for specific activity
+    """
+    ## get sample index
+    _activity_sample_index = sample_from_each_group.index[activity_index]
+    _sensor_val = x_train[_activity_sample_index][
+        :, sensor_index
+    ]  # get channel value coresponding to sample index
+    return _sensor_val  # 128 value for each time step for a specific channel to specific activity
+
+
+def get_all_activites(samples_from_each_group, activity_indices, sensor_index, x_train):
+    """
+    get channel value for all activites for one sample
+    """
+    return [
+        get_sample(samples_from_each_group, i, x_train, sensor_index)
+        for i in activity_indices
+    ]
+
+
+def plot_signal_signal_across_activity(y_train, x_train, activity_labels):
+    y_train = pd.DataFrame(y_train)
+    ## get one sample from each group
+    sample_each_group = y_train.groupby(0).sample(n=1)
+    sample_list = get_all_activites(
+        samples_from_each_group=sample_each_group,
+        x_train=x_train,
+        activity_indices=[0, 1, 2, 3, 4, 5],
+        sensor_index=0,
+    )
+    for i, sample in enumerate(sample_list):
+        plt.plot(sample, label=f"Body Acceleration for {activity_labels[i]} activity ")
+        plt.ylabel("body_acc_x values ")
+        plt.xlabel("Time Steps across each body_acc_x")
+        plt.legend(loc="upper right", title_fontsize=5)
+        plt.title("Different activity comparison")

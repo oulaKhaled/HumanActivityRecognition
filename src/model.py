@@ -5,16 +5,17 @@ from keras_tuner import RandomSearch
 def build_model(hp):
     model = keras.Sequential()
     model.add(keras.Input(shape=(128, 9)))
-    model.add(
-        keras.layers.LSTM(
-            hp.Int(f"units", min_value=64, max_value=320, step=64),
-            return_sequences=True,
+    for i in range(hp.Int("layers", max_value=5, min_value=1, step=1)):
+        model.add(
+            keras.layers.LSTM(
+                hp.Int(f"units", min_value=32, max_value=320, step=32),
+                return_sequences=True,
+            )
         )
-    )
     if hp.Boolean("batch_norm"):
         model.add(keras.layers.BatchNormalization())
     if hp.Boolean("dropout"):
-        rate = hp.Float("dropout_rate", min_value=0.2, max_value=0.5, step=0.1)
+        rate = hp.Float("dropout_rate", min_value=0.1, max_value=0.5, step=0.1)
         model.add(keras.layers.Dropout(rate))
     model.add(
         keras.layers.LSTM(

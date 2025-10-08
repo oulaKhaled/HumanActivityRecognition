@@ -26,7 +26,7 @@ best_hp, tuner = tuner_random_search(
     y_train,
     validation_split=0.3,
     trails_count=2,
-    objective=["accuracy", "val_accuracy"],
+    objective="val_accuracy",
     epochs=50,
 )
 ## get best model hyper parameters
