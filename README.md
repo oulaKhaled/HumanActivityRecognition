@@ -11,8 +11,18 @@ Each sample consists of:
 - **128 time steps**
 - **9 features** (3 acceleration axes, 3 gyroscope axes, 3 total acceleration axes)
 
-The goal is to classify each sequence into one of six activities.
+The goal is to classify each sequence into one of six activities.   
 
+---
+Visualize Data 
+---
+<div align="center">
+<img  alt="different-activity-comparison" src="https://github.com/user-attachments/assets/5124a8b5-7a80-480c-b947-e593adbbe403" /> 
+<img  alt="raw sample" src="https://github.com/user-attachments/assets/b5dbdd1b-a87f-47a8-bcb2-a467b334722d"  />
+  
+</div>
+
+ 
 ---
 Project Structure
 ```
@@ -42,3 +52,7 @@ All model hyperparameters, including the number of units, dropout rate, and lear
 - Optional Dropout and Batch Normalization for regularization  
 - Adam optimizer with tuned learning rate  
 - Softmax output layer for multiclass classification  
+
+Model Result 
+--
+<img width="1189" height="590" alt="acc-val" src="https://github.com/user-attachments/assets/be2426ae-a779-4eba-b61a-22b0e189248a" />
