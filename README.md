@@ -11,7 +11,7 @@ Each sample consists of:
 - **128 time steps**
 - **9 features** (3 acceleration axes, 3 gyroscope axes, 3 total acceleration axes)
 
-The goal is to classify each sequence into one of six activities.   
+***The goal is to classify each sequence into one of six activities.***   
 
 ---
 Visualize Data 
